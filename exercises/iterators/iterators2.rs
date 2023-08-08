@@ -1,22 +1,23 @@
 // iterators2.rs
-//
 // In this exercise, you'll learn some of the unique advantages that iterators
 // can offer. Follow the steps to complete the exercise.
-//
-// Execute `rustlings hint iterators2` or use the `hint` watch subcommand for a
-// hint.
-
-// I AM NOT DONE
+// Execute `rustlings hint iterators2` or use the `hint` watch subcommand for a hint.
 
 // Step 1.
 // Complete the `capitalize_first` function.
 // "hello" -> "Hello"
 pub fn capitalize_first(input: &str) -> String {
     let mut c = input.chars();
+    let mut ret_val = String::new();
     match c.next() {
-        None => String::new(),
-        Some(first) => ???,
+        None => (),
+        Some(first) => {
+            ret_val += &String::from(first).to_uppercase();
+            ret_val.push_str(&input[1..]);
+        }
     }
+
+    ret_val
 }
 
 // Step 2.
@@ -24,7 +25,13 @@ pub fn capitalize_first(input: &str) -> String {
 // Return a vector of strings.
 // ["hello", "world"] -> ["Hello", "World"]
 pub fn capitalize_words_vector(words: &[&str]) -> Vec<String> {
-    vec![]
+    let mut ret_val: Vec<String> = vec![];
+
+    for word in words {
+        ret_val.push(capitalize_first(word));
+    }
+
+    ret_val
 }
 
 // Step 3.
@@ -32,7 +39,13 @@ pub fn capitalize_words_vector(words: &[&str]) -> Vec<String> {
 // Return a single string.
 // ["hello", " ", "world"] -> "Hello World"
 pub fn capitalize_words_string(words: &[&str]) -> String {
-    String::new()
+    let mut ret_val = String::new();
+
+    for word in words {
+        ret_val += &capitalize_first(word);
+    }
+
+    ret_val
 }
 
 #[cfg(test)]
@@ -47,6 +60,11 @@ mod tests {
     #[test]
     fn test_empty() {
         assert_eq!(capitalize_first(""), "");
+    }
+
+    #[test]
+    fn test_whitespace() {
+        assert_eq!(capitalize_first(" "), " ");
     }
 
     #[test]
